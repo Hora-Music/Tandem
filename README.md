@@ -1,3 +1,6 @@
+<img width="4624" height="3468" alt="20261109_231158" src="https://github.com/user-attachments/assets/c85f42ca-46e2-4131-88ab-4ed1fe9d9375" />
+
+
 # Tandem
 
 Firmware for **Tandem**, a two-channel multimode CV generator for Eurorack (12 HP) by Hora-Music. Each channel can be an LFO, an ADSR envelope, a 16-step pitch sequencer or an accent-style bassline envelope, and the two channels can be patched into each other internally.
@@ -53,3 +56,7 @@ You may use, study, modify and share them, including commercially, as long as an
 **"Tandem"**, **"Hora-Music"** and the Hora-Music logo are names and marks of Hora-Music. They are **not** covered by the GPL or any other license in this repository.
 
 You may say that a product is "based on the Hora-Music Tandem" to describe where it comes from. You may not sell, distribute or promote a module, kit, PCB, panel or modified firmware under the names "Tandem" or "Hora-Music", or with the Hora-Music logo, without written permission. Derived products must use a different name and must not suggest they are made or endorsed by Hora-Music.
+
+<img width="4000" height="3000" alt="20261109_231300" src="https://github.com/user-attachments/assets/37d3d126-4b9b-4031-9a43-78754ba4f73a" />
+<img width="4624" height="3468" alt="20261109_231209" src="https://github.com/user-attachments/assets/d6106bc5-5a90-467d-abeb-2ddbd98c2949" />
+<img width="960" height="720" alt="95387309_2407765269444195_1476774073223610368_n" src="https://github.com/user-attachments/assets/445bbac1-1528-448a-adb0-b53eabfa3672" />
