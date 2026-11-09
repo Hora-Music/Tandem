@@ -637,6 +637,10 @@ void loop()
         nvic_sys_reset();
       }
     }
+    else
+    {
+      restartButtonCounter = 0;                                                                   // MAIN released: only a continuous hold restarts the module
+    }
     if (setting->isLoading() == true)
     {
        Timer2.pause();
