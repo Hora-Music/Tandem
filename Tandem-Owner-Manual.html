@@ -1,0 +1,879 @@
+<title>Tandem Owner's Manual</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a sticky contents rail beside one reading column; the module itself (panel + OLED) is the visual anchor. */
+:root{
+  --bg:#eef0f1; --surface:#ffffff; --sunk:#e3e6e8; --fg:#16181b; --muted:#5b6168; --line:#cdd2d6;
+  --amber:#9a6a00; --amber-soft:#f3e3b8; --ch1:#16181b; --ch1-bg:#ffffff;
+  --panel:#141517; --panel-ink:#f0eee9; --panel-amber:#e2a923;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e0f11; --surface:#17191c; --sunk:#1f2226; --fg:#e9e7e2; --muted:#a2a7ad; --line:#2d3136;
+  --amber:#e8b13a; --amber-soft:#3a2f14; --ch1:#e9e7e2; --ch1-bg:#24272b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e0f11; --surface:#17191c; --sunk:#1f2226; --fg:#e9e7e2; --muted:#a2a7ad; --line:#2d3136;
+  --amber:#e8b13a; --amber-soft:#3a2f14; --ch1:#e9e7e2; --ch1-bg:#24272b; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 17px/1.6 var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-block:32px 96px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr);gap:24px}}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;font-size:14px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.toc a{color:var(--muted);text-decoration:none;display:block;padding:3px 0 3px 12px;border-left:2px solid transparent}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--fg);border-left-color:var(--amber);outline:none}
+nav.toc .brand{font:700 13px/1 var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;padding-left:12px}
+@media (max-width:980px){nav.toc{position:static}nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+main{min-width:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.05;margin:0}
+h1{font-size:clamp(48px,8vw,84px);font-weight:700;letter-spacing:.01em;text-transform:uppercase}
+h2{font-size:38px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:6px}
+h3{font-size:24px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:34px 0 8px}
+section{padding-top:56px;margin-top:8px;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0;padding-top:0}
+p{margin:0 0 14px;max-width:68ch}
+.lead{font-size:20px;color:var(--muted);max-width:60ch}
+.eyebrow{font:500 13px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.sub{color:var(--muted);margin-bottom:22px}
+ul,ol{max-width:68ch;padding-left:22px;margin:0 0 16px}
+li{margin:4px 0}
+ol.steps{counter-reset:s;list-style:none;padding:0}
+ol.steps>li{counter-increment:s;position:relative;padding-left:40px;margin:10px 0}
+ol.steps>li::before{content:counter(s);position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;background:var(--sunk);font:600 14px/26px var(--mono);text-align:center;color:var(--fg)}
+a{color:var(--amber)}
+code,.mono{font-family:var(--mono);font-size:.88em}
+
+/* control chips: buttons look like the grey caps, knobs carry their K-number */
+.b,.k,.j{display:inline-block;font:600 12.5px/1 var(--mono);letter-spacing:.04em;padding:4px 8px 3px;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.b{background:var(--sunk);color:var(--fg);border:1px solid var(--line)}
+.k{background:transparent;color:var(--fg);border:1.5px solid var(--fg);border-radius:6px}
+.j{background:transparent;border:1.5px dashed var(--muted);color:var(--fg);border-radius:4px}
+.c1{display:inline-block;font:700 12px/1 var(--mono);padding:4px 7px 3px;border-radius:4px;background:var(--ch1-bg);color:var(--ch1);border:1.5px solid var(--ch1)}
+.c2{display:inline-block;font:700 12px/1 var(--mono);padding:4px 7px 3px;border-radius:4px;background:var(--amber-soft);color:var(--amber);border:1.5px solid var(--amber)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end;margin-bottom:28px}
+@media (max-width:720px){.hero{grid-template-columns:minmax(0,1fr)}}
+.specs{display:flex;flex-wrap:wrap;gap:8px 22px;margin:22px 0 0;padding:16px 0 0;border-top:1px solid var(--line);font:500 14px/1.3 var(--mono);color:var(--muted)}
+.specs b{display:block;font:700 22px/1.1 var(--display);color:var(--fg);letter-spacing:.02em}
+
+/* panel figure */
+.panel-wrap{display:grid;grid-template-columns:300px minmax(0,1fr);gap:40px;align-items:start}
+@media (max-width:760px){.panel-wrap{grid-template-columns:minmax(0,1fr)}}
+.panel-svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.28))}
+.panel-svg .ctl{cursor:pointer}
+.panel-svg .halo{fill:none;stroke:var(--panel-amber);stroke-width:.7;opacity:0;transition:opacity .15s}
+.panel-svg .ctl.on .halo{opacity:1}
+.legend{display:grid;gap:18px;min-width:0}
+.legend h4{font:600 13px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.legend dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:0}
+.legend dt,.legend dd{padding:7px 0;border-top:1px solid var(--line);margin:0}
+.legend dt{padding-right:14px;font:700 15px/1.4 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.legend dd{color:var(--muted);font-size:15.5px}
+.legend .row{cursor:pointer}
+.legend .row.on{color:var(--fg);background:linear-gradient(90deg,var(--amber-soft),transparent)}
+.badge{display:inline-block;min-width:20px;height:20px;border-radius:50%;background:var(--panel-amber);color:#141517;font:700 11px/20px var(--mono);text-align:center;margin-right:8px;vertical-align:1px}
+.jacks{display:grid;grid-template-columns:auto repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:15px}
+.jacks>div{background:var(--surface);padding:9px 12px}
+.jacks .h{font:600 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk)}
+
+/* OLED figure: a little slice of the panel around the screen */
+.scr{margin:22px 0 26px;max-width:620px}
+.bezel{display:grid;grid-template-columns:minmax(64px,1fr) minmax(0,384px) minmax(64px,1fr);grid-template-areas:"k1 . k2" "tl s tr" "bl s br" "k3 . k4";gap:8px 12px;background:var(--panel);border-radius:14px;padding:14px 14px;color:var(--panel-ink)}
+.bezel canvas{grid-area:s;width:100%;height:auto;aspect-ratio:2/1;display:block;border-radius:4px;background:#030405;image-rendering:pixelated;box-shadow:inset 0 0 0 1px #2a2c30,0 0 0 4px #0b0c0d;filter:drop-shadow(0 0 3px rgba(225,235,255,.18))}
+.bt,.kt{font:500 11.5px/1.25 var(--mono);color:#b9b7b1;min-width:0}
+.bt b,.kt b{display:block;font:700 12.5px/1.2 var(--display);letter-spacing:.1em;color:var(--panel-amber);text-transform:uppercase}
+.kt b{color:var(--panel-ink)}
+.bt.tl{grid-area:tl;align-self:start}.bt.tr{grid-area:tr;align-self:start;text-align:right}
+.bt.bl{grid-area:bl;align-self:end}.bt.br{grid-area:br;align-self:end;text-align:right}
+.kt.k1{grid-area:k1}.kt.k2{grid-area:k2;text-align:right}.kt.k3{grid-area:k3}.kt.k4{grid-area:k4;text-align:right}
+.bt.na b,.kt.na b{color:#6d6c68}
+.scr figcaption{font-size:14.5px;color:var(--muted);margin-top:8px;max-width:62ch}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:780px}
+.pair .scr{margin:16px 0}
+.pair .bezel{grid-template-columns:minmax(0,1fr);grid-template-areas:"s";padding:10px}
+@media (max-width:640px){.pair{grid-template-columns:minmax(0,1fr)}}
+.bare{background:var(--panel);border-radius:12px;padding:10px;max-width:400px}
+.bare canvas{width:100%;height:auto;aspect-ratio:2/1;display:block;border-radius:4px;background:#030405;image-rendering:pixelated;filter:drop-shadow(0 0 3px rgba(225,235,255,.18))}
+
+/* tables */
+.tbl{overflow-x:auto;margin:14px 0 22px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-top:1px solid var(--line)}
+thead th{border-top:0;font:600 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk);white-space:nowrap}
+tbody th{font:700 14px/1.3 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+td.dim{color:var(--muted)}
+.qr td{min-width:150px}
+
+/* small icon strips (waveforms, mode icons) rendered with the firmware's own pixel art */
+.icons{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 20px}
+.icon{display:grid;justify-items:center;gap:6px;background:var(--panel);border-radius:10px;padding:10px 12px 8px;min-width:84px}
+.icon canvas{image-rendering:pixelated;display:block}
+.icon span{font:500 11.5px/1.2 var(--mono);color:#c8c6c0;text-align:center}
+.note{border-left:3px solid var(--amber);background:var(--surface);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;max-width:68ch;font-size:15.5px}
+.note b{font-family:var(--display);letter-spacing:.06em;text-transform:uppercase}
+.patch{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:16px 0;max-width:720px}
+.patch h3{margin-top:0}
+.foot{margin-top:64px;color:var(--muted);font-size:14px}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="brand">Tandem manual</div>
+  <ol>
+    <li><a href="#intro">Overview</a></li>
+    <li><a href="#panel">The panel</a></li>
+    <li><a href="#basics">Finding your way</a></li>
+    <li><a href="#main">Main menu</a></li>
+    <li><a href="#save">Saving presets</a></li>
+    <li><a href="#patch">Internal patching</a></li>
+    <li><a href="#lfo">LFO</a></li>
+    <li><a href="#env">Envelope</a></li>
+    <li><a href="#seq">Step sequencer</a></li>
+    <li><a href="#bass">Bassline envelope</a></li>
+    <li><a href="#cv">CV modulation</a></li>
+    <li><a href="#patches">Example patches</a></li>
+    <li><a href="#utils">Power-up utilities</a></li>
+    <li><a href="#sd">microSD card</a></li>
+    <li><a href="#ref">Quick reference</a></li>
+  </ol>
+</nav>
+
+<main>
+<!-- ============================== OVERVIEW -->
+<section id="intro">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Hora-Music · Owner's manual</div>
+      <h1>Tandem</h1>
+      <p class="lead">A two-channel multimode CV generator. Each channel can be an LFO, an ADSR envelope, a 16-step pitch sequencer or an accent-style bassline envelope, and the two channels can be patched into each other without cables.</p>
+    </div>
+    <div class="bare" style="width:260px;max-width:100%"><canvas data-screen="boot" aria-label="Start-up screen reading HORA - TANDEM"></canvas></div>
+  </div>
+  <p>Each channel has its own set of four jacks: a gate input, a CV input, a gate output and a CV output. You pick a mode for each channel in the main menu, then edit it with the four knobs and the buttons around the screen. Whole setups (both modes, every parameter and the internal patching) are stored as presets on a microSD card.</p>
+  <div class="specs">
+    <span><b>12 HP</b>Eurorack</span>
+    <span><b>2</b>channels</span>
+    <span><b>4</b>modes per channel</span>
+    <span><b>16 × 32</b>banks × presets</span>
+    <span><b>12-bit</b>CV outputs</span>
+    <span><b>128 × 64</b>OLED</span>
+  </div>
+</section>
+
+<!-- ============================== PANEL -->
+<section id="panel">
+  <h2>The panel</h2>
+  <p class="sub">Hover or tap a control in the drawing or in the list to find it. Channel 1 is marked in white, channel 2 in amber.</p>
+  <div class="panel-wrap">
+    <svg class="panel-svg" id="panelSvg" viewBox="0 0 60.18 128.45" role="img" aria-label="Drawing of the Tandem front panel"></svg>
+    <div class="legend" id="legend">
+      <div>
+        <h4>Knobs</h4>
+        <dl>
+          <dt class="row" data-id="k1"><span class="badge">K1</span>Preset · Pos</dt><dd class="row" data-id="k1">Top left. Picks the preset in the main menu; first parameter of the channel being edited (rate, attack, step position…).</dd>
+          <dt class="row" data-id="k2"><span class="badge">K2</span>Bank · Note</dt><dd class="row" data-id="k2">Top right. Picks the bank (A–P) in the main menu; second parameter when editing (waveform, decay, note…).</dd>
+          <dt class="row" data-id="k3"><span class="badge">K3</span>Lower left</dt><dd class="row" data-id="k3">Picks the mode of channel 1 in the main menu; third parameter when editing.</dd>
+          <dt class="row" data-id="k4"><span class="badge">K4</span>Lower right</dt><dd class="row" data-id="k4">Picks the mode of channel 2 in the main menu; fourth parameter when editing.</dd>
+        </dl>
+      </div>
+      <div>
+        <h4>Buttons</h4>
+        <dl>
+          <dt class="row" data-id="main"><span class="badge">M</span>Main</dt><dd class="row" data-id="main">Opens the main menu from anywhere. In the main menu, opens the save screen.</dd>
+          <dt class="row" data-id="sel"><span class="badge">S</span>Select · Write</dt><dd class="row" data-id="sel">Loads the chosen preset. In the modes: reset, manual gate, or write a step.</dd>
+          <dt class="row" data-id="pat"><span class="badge">P</span>Patch · Slide</dt><dd class="row" data-id="pat">Opens internal patching from the main menu. In the modes: snap, knob function, or slide.</dd>
+          <dt class="row" data-id="rest"><span class="badge">R</span>Rest</dt><dd class="row" data-id="rest">Confirms the channel 1 mode and answers YES in dialogs. In the modes: CV page, gate length.</dd>
+          <dt class="row" data-id="clk"><span class="badge">C</span>Clk div</dt><dd class="row" data-id="clk">Confirms the channel 2 mode and answers NO in dialogs. In the modes: output polarity, or the sequencer's clock page.</dd>
+          <dt class="row" data-id="b1"><span class="badge">1</span>Channel 1</dt><dd class="row" data-id="b1">Edits channel 1. Its light shows which channel you are editing.</dd>
+          <dt class="row" data-id="b2"><span class="badge">2</span>Channel 2</dt><dd class="row" data-id="b2">Edits channel 2.</dd>
+        </dl>
+      </div>
+      <div>
+        <h4>Other</h4>
+        <dl>
+          <dt class="row" data-id="oled">Screen</dt><dd class="row" data-id="oled">128 × 64 OLED. The words in its corners name what the nearest button does on that page.</dd>
+          <dt class="row" data-id="sd">microSD slot</dt><dd class="row" data-id="sd">Holds the presets and pitch tables. Leave a card in the slot while the module runs.</dd>
+        </dl>
+      </div>
+      <div>
+        <h4>Jacks</h4>
+        <div class="jacks" id="jackGrid">
+          <div class="h"></div><div class="h">Channel 1 (white)</div><div class="h">Channel 2 (amber)</div>
+          <div class="h">Inputs ⎍</div><div class="row" data-id="gi1"><b>Gate in 1</b> · trigger, gate or clock</div><div class="row" data-id="gi2"><b>Gate in 2</b></div>
+          <div class="h">Inputs ∿</div><div class="row" data-id="ci1"><b>CV in 1</b> · modulation</div><div class="row" data-id="ci2"><b>CV in 2</b></div>
+          <div class="h">Outputs ⎍</div><div class="row" data-id="go1"><b>Gate out 1</b> · triggers and gates</div><div class="row" data-id="go2"><b>Gate out 2</b></div>
+          <div class="h">Outputs ∿</div><div class="row" data-id="co1"><b>CV out 1</b> · the channel's signal</div><div class="row" data-id="co2"><b>CV out 2</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== BASICS -->
+<section id="basics">
+  <h2>Finding your way</h2>
+  <p class="sub">Tandem has four kinds of page. You will spend most of your time on the edit pages.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Page</th><th>How to get there</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><th>Main menu</th><td>Press <span class="b">MAIN</span> from any page. Tandem also starts here.</td><td>Load presets, pick the mode of each channel.</td></tr>
+      <tr><th>Edit</th><td>In the main menu, press <span class="b">1</span> or <span class="b">2</span>.</td><td>Set the parameters of one channel. <span class="b">1</span> and <span class="b">2</span> switch channel.</td></tr>
+      <tr><th>Patch</th><td>In the main menu, press <span class="b">PATCH</span>.</td><td>Connect outputs to inputs internally.</td></tr>
+      <tr><th>Save</th><td>In the main menu, press <span class="b">MAIN</span> again.</td><td>Name and store the current setup.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Knob pick-up</h3>
+  <p>Each time you change page or channel, the knobs are parked: turning a knob a little does nothing, so the values you just left stay where they were. Once you turn a knob past about a tenth of its travel, it takes over and the parameter jumps to the knob's position.</p>
+  <h3>Value read-outs</h3>
+  <p>On the edit pages, a knob's label (RATE, ATT, SUS…) turns into its value, 0 to 127, while you turn it, and goes back to the label a few seconds after you let go.</p>
+  <h3>Restart</h3>
+  <p>Hold <span class="b">MAIN</span> down for a moment to restart the module. It comes back on the last preset you loaded.</p>
+</section>
+
+<!-- ============================== MAIN MENU -->
+<section id="main">
+  <h2>Main menu</h2>
+  <p class="sub">The screen is laid out like the knobs above and below it.</p>
+  <div class="pair">
+    <figure class="scr"><div class="bezel"><canvas data-screen="mainLoaded" aria-label="Main menu, preset loaded"></canvas></div><figcaption>Preset 5 of bank A is loaded: the name and the bank letter are filled in.</figcaption></figure>
+    <figure class="scr"><div class="bezel"><canvas data-screen="mainBrowse" aria-label="Main menu while browsing"></canvas></div><figcaption>Browsing: <span class="k">K1</span> has moved to preset 6. Its name stays outlined until you press <span class="b">SELECT</span>.</figcaption></figure>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Screen area</th><th>Shows</th><th>Set with</th></tr></thead>
+    <tbody>
+      <tr><th>Number, top left</th><td>Preset number, 0–31</td><td><span class="k">K1</span></td></tr>
+      <tr><th>Bar below it</th><td>Preset name</td><td>follows <span class="k">K1</span></td></tr>
+      <tr><th>Letter, top right</th><td>Bank, A–P</td><td><span class="k">K2</span></td></tr>
+      <tr><th>Patch icon, top right</th><td>Reminder that <span class="b">PATCH</span> opens patching</td><td></td></tr>
+      <tr><th>Box, lower left</th><td>Mode of channel 1</td><td><span class="k">K3</span></td></tr>
+      <tr><th>Box, lower right</th><td>Mode of channel 2</td><td><span class="k">K4</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Load a preset</h3>
+  <ol class="steps">
+    <li>Turn <span class="k">K2</span> to pick a bank and <span class="k">K1</span> to pick a preset. The name appears as you turn.</li>
+    <li>Press <span class="b">SELECT</span> to load it. Name and bank letter turn solid.</li>
+  </ol>
+  <p>If you do not press <span class="b">SELECT</span>, the display goes back to the loaded preset after about five seconds.</p>
+
+  <h3>Change a channel's mode</h3>
+  <div class="icons" id="modeIcons"></div>
+  <ol class="steps">
+    <li>Turn <span class="k">K3</span> (channel 1) or <span class="k">K4</span> (channel 2) until the icon of the mode you want appears. Its frame disappears and the icon blinks: the change is not active yet.</li>
+    <li>Press <span class="b">REST</span> to confirm channel 1, or <span class="b">CLK DIV</span> to confirm channel 2.</li>
+    <li>Tandem asks for confirmation. Press <span class="b">REST</span> for YES or <span class="b">CLK DIV</span> for NO.</li>
+  </ol>
+  <div class="pair">
+  <figure class="scr"><div class="bezel"><canvas data-screen="modePending" aria-label="Main menu with a mode change waiting"></canvas></div><figcaption>Channel 2 turned to LFO and waiting for <span class="b">CLK DIV</span>.</figcaption></figure>
+  <figure class="scr"><div class="bezel" style="grid-template-areas:'tl s tr' 'bl s br';grid-template-columns:minmax(44px,1fr) minmax(0,260px) minmax(44px,1fr)"><span class="bt tl na"><b>Select</b></span><span class="bt tr na"><b>Patch</b></span><canvas data-screen="confirmModel" aria-label="Model confirmation dialog"></canvas><span class="bt bl"><b>Rest</b>yes</span><span class="bt br"><b>Clk div</b>no</span></div><figcaption>The confirmation dialog. YES and NO sit next to the two lower buttons.</figcaption></figure>
+  </div>
+  <div class="note"><b>Note.</b> Confirming a mode resets that channel to the mode's default settings. Save first if you want to keep what you had.</div>
+
+  <h3>Edit a channel</h3>
+  <p>Press <span class="b">1</span> or <span class="b">2</span>. The light in that button turns on and the screen shows the channel's edit page. If a mode change is still waiting for confirmation, finish or cancel it first. Press <span class="b">MAIN</span> to come back.</p>
+</section>
+
+<!-- ============================== SAVE -->
+<section id="save">
+  <h2>Saving presets</h2>
+  <p class="sub">A preset holds both modes, all their settings and the internal patching. It is saved into the bank that is currently loaded.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1</b>pick a character</span><span class="kt k2"><b>K2</b>move along the name</span>
+    <span class="bt tl"><b>Write</b>enter character</span><span class="bt tr"><b>Patch</b>back (&lt;&lt;)</span>
+    <canvas data-screen="save" aria-label="Save screen with character grid"></canvas>
+    <span class="bt bl na"><b>Rest</b></span><span class="bt br na"><b>Clk div</b></span>
+    <span class="kt k3"><b>K3</b>destination</span><span class="kt k4"><b>K4</b>destination</span>
+  </div><figcaption>The save screen. The highlighted square is the character under <span class="k">K1</span>; the short line under the name marks the letter that will be replaced.</figcaption></figure>
+  <ol class="steps">
+    <li>In the main menu, press <span class="b">MAIN</span>. The save screen opens with the current name.</li>
+    <li>Turn <span class="k">K3</span> or <span class="k">K4</span> to choose the destination slot, 0–31. The number blinks when it differs from the loaded preset, which means you are about to save to another slot.</li>
+    <li>To rename: turn <span class="k">K2</span> to move the cursor along the name, turn <span class="k">K1</span> to highlight a character, and press <span class="b">WRITE</span> to enter it. The cursor moves on by one letter. Names are 11 characters: A–Z, 0–9, underscore and space.</li>
+    <li>Press <span class="b">MAIN</span>. Tandem asks <span class="mono">SAVE?</span></li>
+    <li>Press <span class="b">REST</span> for YES or <span class="b">CLK DIV</span> for NO.</li>
+  </ol>
+  <p>Press <span class="b">PATCH</span> at any time on the save screen to leave without saving.</p>
+</section>
+
+<!-- ============================== PATCH -->
+<section id="patch">
+  <h2>Internal patching</h2>
+  <p class="sub">Send either channel's outputs into the inputs, with no cables. Connections are saved with the preset.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1 / K2</b>choose input</span><span class="kt k2"><b></b></span>
+    <span class="bt tl"><b>Select</b>connect / disconnect</span><span class="bt tr"><b>Patch</b>back (&lt;&lt;)</span>
+    <canvas data-screen="routing" aria-label="Patch screen"></canvas>
+    <span class="bt bl na"><b>Rest</b></span><span class="bt br na"><b>Clk div</b></span>
+    <span class="kt k3"><b>K3 / K4</b>choose output</span><span class="kt k4"><b></b></span>
+  </div><figcaption>The circles are drawn like the jacks: inputs on top, outputs below, channel 1 on the left. Solid lines are connections. The blinking line is the pair you have selected but not yet connected.</figcaption></figure>
+  <div class="tbl"><table>
+    <thead><tr><th>Row</th><th>Circle 1</th><th>Circle 2</th><th>Circle 3</th><th>Circle 4</th></tr></thead>
+    <tbody>
+      <tr><th>Top: inputs</th><td>Gate in 1</td><td>CV in 1</td><td>Gate in 2</td><td>CV in 2</td></tr>
+      <tr><th>Bottom: outputs</th><td>Gate out 1</td><td>CV out 1</td><td>Gate out 2</td><td>CV out 2</td></tr>
+    </tbody>
+  </table></div>
+  <ol class="steps">
+    <li>In the main menu, press <span class="b">PATCH</span>.</li>
+    <li>Turn <span class="k">K1</span> or <span class="k">K2</span> to select an input (top row), and <span class="k">K3</span> or <span class="k">K4</span> to select an output (bottom row).</li>
+    <li>Press <span class="b">SELECT</span> (or <span class="b">1</span> or <span class="b">2</span>) to connect them. Press again to disconnect.</li>
+    <li>Press <span class="b">PATCH</span> to go back to the main menu.</li>
+  </ol>
+  <p>An internal connection is combined with whatever is plugged into the same input jack. An output can feed several inputs, and an input can receive several outputs.</p>
+</section>
+
+<!-- ============================== LFO -->
+<section id="lfo">
+  <h2>LFO</h2>
+  <p class="sub">A free-running low-frequency oscillator with eight waveforms you can morph between, a reset input and a trigger output.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1 · Rate</b>speed</span><span class="kt k2"><b>K2 · Wave</b>waveform</span>
+    <span class="bt tl"><b>Select</b>reset · scope (ch 1)</span><span class="bt tr"><b>Patch</b>snap · sync (ch 2)</span>
+    <canvas data-screen="lfo" aria-label="LFO edit page"></canvas>
+    <span class="bt bl"><b>Rest</b>CV page</span><span class="bt br"><b>Clk div</b>Bi / Uni</span>
+    <span class="kt k3"><b>K3 · Phase</b>reset point</span><span class="kt k4"><b>K4 · Trig</b>trigger point</span>
+  </div><figcaption>One full cycle of the LFO is drawn across the screen. The square rides along with the output. The line with the arrowheads and the number is the phase; the second line is the trigger point.</figcaption></figure>
+  <h3>Controls</h3>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><th><span class="k">K1</span> Rate</th><td>Speed of the LFO.</td></tr>
+      <tr><th><span class="k">K2</span> Wave</th><td>Morphs through the eight shapes below. While you turn it, the shape appears at the top of the screen in place of <span class="mono">WAV</span>.</td></tr>
+      <tr><th><span class="k">K3</span> Phase</th><td>The point of the cycle the LFO jumps to when it is reset.</td></tr>
+      <tr><th><span class="k">K4</span> Trig</th><td>The point of the cycle where gate out fires a short trigger, once per cycle.</td></tr>
+      <tr><th><span class="b">SELECT</span></th><td>Resets the LFO to its phase point. On channel 1 it also switches the drawing between the LFO and a scope of CV in 1 (the corner reads <span class="mono">Scop</span> or <span class="mono">Lfo</span>, naming the view you will get).</td></tr>
+      <tr><th><span class="b">PATCH</span></th><td><span class="mono">Snap</span>: when on (shown inverted), <span class="k">K2</span> steps between the eight pure shapes instead of morphing. On channel 2, when channel 1 is also an LFO, this button sets <span class="mono">SYNC</span> instead: LFO 2 follows the timing of LFO 1, and an <span class="mono">S</span> appears in the top right corner.</td></tr>
+      <tr><th><span class="b">REST</span></th><td>Opens the <a href="#cv">CV page</a>. Press again to come back.</td></tr>
+      <tr><th><span class="b">CLK DIV</span></th><td>Output polarity: <span class="mono">Bi</span> (swings above and below 0 V) or <span class="mono">Uni</span> (positive only).</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Waveforms</h3>
+  <p>In the order <span class="k">K2</span> reaches them, from fully left:</p>
+  <div class="icons" id="waveIcons"></div>
+  <h3>Jacks</h3>
+  <ul>
+    <li><b>Gate in</b>: a rising edge resets the LFO to the phase point.</li>
+    <li><b>CV in</b>: modulation, set up on the CV page.</li>
+    <li><b>Gate out</b>: a short trigger each time the LFO passes the trigger point.</li>
+    <li><b>CV out</b>: the LFO.</li>
+  </ul>
+</section>
+
+<!-- ============================== ENVELOPE -->
+<section id="env">
+  <h2>Envelope</h2>
+  <p class="sub">An ADSR envelope with an adjustable curve and an end-of-stage trigger.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1 · Att</b>attack</span><span class="kt k2"><b>K2 · Dec</b>decay / shape / trig</span>
+    <span class="bt tl"><b>Select</b>manual gate ▶</span><span class="bt tr"><b>Patch</b>K2 function ←</span>
+    <canvas data-screen="env" aria-label="Envelope edit page"></canvas>
+    <span class="bt bl"><b>Rest</b>CV page</span><span class="bt br"><b>Clk div</b>Uni / Bi / Inv</span>
+    <span class="kt k3"><b>K3 · Sus</b>sustain</span><span class="kt k4"><b>K4 · Rel</b>release</span>
+  </div><figcaption>The curve is drawn from the attack, decay and release settings. The two lines inside the curve mark the end of attack and the end of decay; the line at the end marks where the trigger output fires (here: end of release). The square follows the output.</figcaption></figure>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><th><span class="k">K1</span> Att</th><td>Attack time.</td></tr>
+      <tr><th><span class="k">K2</span></th><td>Does one of three jobs. Press <span class="b">PATCH</span> to step through them; the label above the knob changes.<br><span class="mono">DEC</span> decay time · <span class="mono">SHAPE</span> curve, from exponential (left) to linear (right) · <span class="mono">TRIG</span> when gate out fires: end of attack (left third), end of decay (middle) or end of release (right third).</td></tr>
+      <tr><th><span class="k">K3</span> Sus</th><td>Sustain level.</td></tr>
+      <tr><th><span class="k">K4</span> Rel</th><td>Release time.</td></tr>
+      <tr><th><span class="b">SELECT</span></th><td>Manual gate: the envelope runs while you hold the button.</td></tr>
+      <tr><th><span class="b">REST</span></th><td>Opens the <a href="#cv">CV page</a>.</td></tr>
+      <tr><th><span class="b">CLK DIV</span></th><td>Output: <span class="mono">Uni</span> (positive), <span class="mono">Bi</span> (shifted to swing around 0 V) or <span class="mono">Inv</span> (inverted).</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Jacks</h3>
+  <ul>
+    <li><b>Gate in</b>: the envelope attacks when the gate goes high, holds at sustain while it stays high, and releases when it goes low.</li>
+    <li><b>CV in</b>: modulation, set up on the CV page.</li>
+    <li><b>Gate out</b>: a short trigger at the end of the stage chosen with <span class="mono">TRIG</span>. Patch it back into a gate input to chain or loop envelopes.</li>
+    <li><b>CV out</b>: the envelope.</li>
+  </ul>
+</section>
+
+<!-- ============================== STEP SEQ -->
+<section id="seq">
+  <h2>Step sequencer</h2>
+  <p class="sub">Up to 16 steps of pitch, each with its own gate, gate length and slide. It moves one step for each clock received at gate in.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1 · Pos</b>step to edit</span><span class="kt k2"><b>K2 · Note</b>step pitch</span>
+    <span class="bt tl"><b>Write</b>step on / off</span><span class="bt tr"><b>Slide</b>slide on / off</span>
+    <canvas data-screen="seq" aria-label="Step sequencer edit page"></canvas>
+    <span class="bt bl"><b>Rest</b>short / long gate</span><span class="bt br"><b>Clk div</b>clock page</span>
+    <span class="kt k3"><b>K3 · Root</b>transpose</span><span class="kt k4"><b>K4</b>length</span>
+  </div><figcaption>Top: the step being edited and its note. Then one box per step: a filled mark means the step plays, and the bar under it shows the gate length. The tall bars are the pitches; the outlined one is the step under <span class="k">K1</span> and the inverted one is the step playing now. Small ticks at the bottom are slides. Bottom: root and length.</figcaption></figure>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><th><span class="k">K1</span> Pos</th><td>Chooses the step to edit (<span class="mono">POS:</span> 1–16). The knob's travel is spread over the current length.</td></tr>
+      <tr><th><span class="k">K2</span> Note</th><td>Pitch of that step, over about two and a half octaves. The note name and octave show at the top right.</td></tr>
+      <tr><th><span class="k">K3</span> Root</th><td>Transposes the whole sequence in semitones (<span class="mono">ROOT:</span>).</td></tr>
+      <tr><th><span class="k">K4</span> Length</th><td>Number of steps, 1–16, shown bottom right. The step boxes stretch to fill the screen.</td></tr>
+      <tr><th><span class="b">WRITE</span></th><td>Turns the selected step on or off. Steps that are off play no gate.</td></tr>
+      <tr><th><span class="b">SLIDE</span></th><td>Turns slide on or off for the selected step: the pitch glides into the next note.</td></tr>
+      <tr><th><span class="b">REST</span></th><td>Switches the selected step between a short gate and a long gate.</td></tr>
+      <tr><th><span class="b">CLK DIV</span></th><td>Opens the clock page. Press again to come back.</td></tr>
+      <tr><th><span class="b">1</span> <span class="b">2</span></th><td>Switch channel.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Clock page</h3>
+  <figure class="scr" style="max-width:520px"><div class="bezel">
+    <span class="kt k1 na"><b></b></span><span class="kt k2 na"><b></b></span>
+    <span class="bt tl"><b>Write</b>clock division</span><span class="bt tr na"><b>Slide</b></span>
+    <canvas data-screen="seqClock" aria-label="Sequencer clock page"></canvas>
+    <span class="bt bl"><b>Rest</b>direction</span><span class="bt br"><b>Clk div</b>back</span>
+    <span class="kt k3 na"><b></b></span><span class="kt k4 na"><b></b></span>
+  </div></figure>
+  <ul>
+    <li><span class="b">WRITE</span> steps through the clock divisions: 1, 1/2, 1/3, 1/4, 1/6, 1/8, 1/12, 1/16. At 1/4 the sequence advances once every four clocks.</li>
+    <li><span class="b">REST</span> sets the direction: <span class="mono">FWD</span> forward, <span class="mono">BWD</span> backward, <span class="mono">RND</span> random.</li>
+  </ul>
+  <h3>Jacks</h3>
+  <ul>
+    <li><b>Gate in</b>: clock. Each rising edge (after division) moves one step.</li>
+    <li><b>Gate out</b>: the gate of each active step.</li>
+    <li><b>CV out</b>: pitch, 1 V/oct, using the pitch table chosen at power-up (see <a href="#utils">pitch calibration</a>).</li>
+    <li><b>CV in</b>: not used by this mode.</li>
+  </ul>
+</section>
+
+<!-- ============================== BASSLINE -->
+<section id="bass">
+  <h2>Bassline envelope</h2>
+  <p class="sub">A snappy decay envelope with accents, made to work with a step sequencer on the other channel.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1</b>step to accent</span><span class="kt k2"><b>K2</b>accent / hard. / length</span>
+    <span class="bt tl"><b>Select</b>accent on / off</span><span class="bt tr"><b>Patch</b>K2 function</span>
+    <canvas data-screen="bass" aria-label="Bassline envelope edit page"></canvas>
+    <span class="bt bl na"><b>Rest</b></span><span class="bt br na"><b>Clk div</b></span>
+    <span class="kt k3"><b>K3</b>attack</span><span class="kt k4"><b>K4</b>decay</span>
+  </div><figcaption>Top: the other channel's sequence, with a mark above each accented step and a frame above the step selected with <span class="k">K1</span>. Below: three dials for attack, decay and the accent setting.</figcaption></figure>
+  <div class="tbl"><table>
+    <tbody>
+      <tr><th><span class="k">K1</span></th><td>Selects a step of the other channel's sequence.</td></tr>
+      <tr><th><span class="b">SELECT</span></th><td>Turns the accent on or off for that step. Accents are stored with the sequencer channel.</td></tr>
+      <tr><th><span class="k">K2</span></th><td>Does one of three jobs. Press <span class="b">PATCH</span> to step through them:<br><span class="mono">accent</span> / <span class="mono">gap</span>: in the left half, how much louder accented notes are. In the right half (shown as <span class="mono">gap</span>), the normal notes get louder and the difference to the accents shrinks.<br><span class="mono">Hard.</span>: how sharply the accent hits.<br><span class="mono">Length</span>: how long the accent lasts.</td></tr>
+      <tr><th><span class="k">K3</span></th><td>Attack time.</td></tr>
+      <tr><th><span class="k">K4</span></th><td>Decay time.</td></tr>
+    </tbody>
+  </table></div>
+  <p>If the other channel is not a step sequencer, the top of the screen reads <span class="mono">Use a sequencer on ch 2 for accent's seq</span> (or ch 1). The envelope still works from its gate input, without accents.</p>
+  <h3>Jacks</h3>
+  <ul>
+    <li><b>Gate in</b>: fires the envelope. Usually the sequencer's gate out, patched internally.</li>
+    <li><b>CV out</b>: the envelope, with accents added.</li>
+  </ul>
+</section>
+
+<!-- ============================== CV PAGE -->
+<section id="cv">
+  <h2>CV modulation</h2>
+  <p class="sub">In LFO and envelope modes, both CV inputs can modulate the channel. Each input gets its own destination and amount.</p>
+  <figure class="scr"><div class="bezel">
+    <span class="kt k1"><b>K1</b>CV 1 destination</span><span class="kt k2"><b>K2</b>CV 2 destination</span>
+    <span class="bt tl na"><b>Select</b></span><span class="bt tr na"><b>Patch</b></span>
+    <canvas data-screen="cvPage" aria-label="CV modulation page"></canvas>
+    <span class="bt bl"><b>Rest</b>back</span><span class="bt br"><b>Clk div</b>polarity</span>
+    <span class="kt k3"><b>K3</b>CV 1 level</span><span class="kt k4"><b>K4</b>CV 2 level</span>
+  </div><figcaption>The CV page of an LFO: CV in 1 bends the rate, CV in 2 morphs the waveform.</figcaption></figure>
+  <ol class="steps">
+    <li>On the LFO or envelope page, press <span class="b">REST</span>.</li>
+    <li>Turn <span class="k">K1</span> to choose what CV in 1 changes and <span class="k">K2</span> for CV in 2. LFO: <span class="mono">RATE</span>, <span class="mono">WAVE</span>, <span class="mono">PHASE</span>, <span class="mono">T-POS</span>. Envelope: <span class="mono">Attack</span>, <span class="mono">Decay</span>, <span class="mono">Sustain</span>, <span class="mono">Release</span>.</li>
+    <li>Turn <span class="k">K3</span> and <span class="k">K4</span> to set how much each input changes it (0–127).</li>
+    <li>Press <span class="b">REST</span> to go back.</li>
+  </ol>
+  <p>The CV is added to the knob setting. With the level at 0, the input has no effect. Internal patches into the CV inputs (see <a href="#patch">Internal patching</a>) go through the same settings.</p>
+</section>
+
+<!-- ============================== EXAMPLES -->
+<section id="patches">
+  <h2>Example patches</h2>
+  <p class="sub">Three starting points. Build them, then save each one as a preset.</p>
+  <div class="patch">
+    <h3>Acid line, one cable for the clock</h3>
+    <ol class="steps">
+      <li>Main menu: set channel 1 to <b>step sequencer</b> and channel 2 to <b>bassline envelope</b>.</li>
+      <li><span class="b">PATCH</span>: connect Gate out 1 to Gate in 2.</li>
+      <li>Patch a clock into <span class="j">Gate in 1</span>, <span class="j">CV out 1</span> to your oscillator's pitch input and <span class="j">CV out 2</span> to a VCA or filter cutoff.</li>
+      <li>Program notes, slides and long gates on channel 1, then go to channel 2 and add accents with <span class="k">K1</span> and <span class="b">SELECT</span>.</li>
+    </ol>
+  </div>
+  <div class="patch">
+    <h3>Two LFOs in step</h3>
+    <ol class="steps">
+      <li>Set both channels to <b>LFO</b>.</li>
+      <li>Edit channel 2 and press <span class="b">PATCH</span> until <span class="mono">SYNC</span> shows. LFO 2 now follows LFO 1.</li>
+      <li>Give them different waveforms and phase points. Patch a clock or a reset gate into <span class="j">Gate in 1</span> if you want both restarted together.</li>
+    </ol>
+  </div>
+  <div class="patch">
+    <h3>Envelope that speeds up an LFO</h3>
+    <ol class="steps">
+      <li>Set channel 1 to <b>envelope</b> and channel 2 to <b>LFO</b>.</li>
+      <li><span class="b">PATCH</span>: connect CV out 1 to CV in 2.</li>
+      <li>Edit channel 2, press <span class="b">REST</span>, set <span class="k">K2</span> to <span class="mono">RATE</span> and raise <span class="k">K4</span>.</li>
+      <li>Each gate into <span class="j">Gate in 1</span> now sweeps the LFO's speed.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================== UTILITIES -->
+<section id="utils">
+  <h2>Power-up utilities</h2>
+  <p class="sub">Hold a button while you switch the rack on to start one of these tools. Switch off and on again to return to normal use.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Hold at power-up</th><th>Starts</th></tr></thead>
+    <tbody>
+      <tr><th><span class="b">MAIN</span></th><td>Tuner and scope</td></tr>
+      <tr><th><span class="b">SELECT</span></th><td>Pitch table selection</td></tr>
+      <tr><th><span class="b">PATCH</span></th><td>Pitch calibration of the CV outputs</td></tr>
+      <tr><th><span class="b">2</span></th><td>CV input calibration</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Tuner and scope</h3>
+  <div class="pair">
+    <figure class="scr"><div class="bezel"><canvas data-screen="tuner" aria-label="Tuner"></canvas></div><figcaption>Tuner: oscillator on Gate in 1 reads 110 Hz, an A in tune. The one on Gate in 2 is a little sharp: the dash sits to the right of the note.</figcaption></figure>
+    <figure class="scr"><div class="bezel"><canvas data-screen="scope" aria-label="Scope"></canvas></div><figcaption>Scope: CV in 1 and CV in 2 drawn together.</figcaption></figure>
+  </div>
+  <ul>
+    <li><b>Tuner.</b> Patch an oscillator's square or pulse output into <span class="j">Gate in 1</span> or <span class="j">Gate in 2</span>. The frequency and note name appear on the left for input 1 and on the right for input 2. A dash before the note means flat, after it means sharp. While the tuner runs, CV out 1 plays a square wave one octave below the signal on Gate in 1.</li>
+    <li><b>Scope.</b> Press <span class="b">MAIN</span> to switch between tuner and scope. The scope draws the signals on <span class="j">CV in 1</span> and <span class="j">CV in 2</span>. Turn <span class="k">K4</span> to change the time scale.</li>
+  </ul>
+
+  <h3>Pitch calibration</h3>
+  <p>The step sequencer plays pitch from a table that matches the CV outputs to your oscillator. Tandem builds that table itself by listening to the oscillator. You can store four tables and pick one later.</p>
+  <ol class="steps">
+    <li>Tune your oscillator low, around 16–30 Hz with nothing in its pitch input.</li>
+    <li>Hold <span class="b">PATCH</span> and switch the rack on. The screen reads <span class="mono">calib</span>.</li>
+    <li>Patch <span class="j">CV out 1</span> to the oscillator's 1 V/oct input, and the oscillator's square output into <span class="j">Gate in 1</span>. Tandem sweeps the output upward and records the voltage for each note. The screen shows the measured frequency and the last value stored.</li>
+    <li>When it asks, patch <span class="j">CV out 2</span> to the oscillator and the oscillator into <span class="j">Gate in 2</span>, then press <span class="b">MAIN</span>.</li>
+    <li>When channel 2 is done, a list of the four table slots appears. Turn <span class="k">K1</span> to choose a slot and press <span class="b">MAIN</span>. That slot becomes the active table.</li>
+    <li>Name the table as you would a preset (<span class="k">K1</span> character, <span class="k">K2</span> position, <span class="b">WRITE</span> to enter) and press <span class="b">MAIN</span>. The table is saved to the card.</li>
+  </ol>
+  <div class="pair">
+    <figure class="scr"><div class="bezel"><canvas data-screen="calibProgress" aria-label="Calibration in progress"></canvas></div><figcaption>Calibration running on channel 1.</figcaption></figure>
+    <figure class="scr"><div class="bezel"><canvas data-screen="calibCh2" aria-label="Calibration prompt for channel 2"></canvas></div><figcaption>The prompt to move the cables to channel 2. The text wraps on the real screen too.</figcaption></figure>
+  </div>
+
+  <h3>Pitch table selection</h3>
+  <figure class="scr" style="max-width:420px"><div class="bezel" style="grid-template-areas:'s';grid-template-columns:minmax(0,1fr);padding:10px"><canvas data-screen="tables" aria-label="Pitch table selection"></canvas></div><figcaption>The filled bar is the active table; the frame follows <span class="k">K1</span>. Table names here are examples.</figcaption></figure>
+  <ol class="steps">
+    <li>Hold <span class="b">SELECT</span> and switch the rack on.</li>
+    <li>Turn <span class="k">K1</span> to frame a table, then press <span class="b">MAIN</span> to make it active.</li>
+    <li>Switch off and on again.</li>
+  </ol>
+
+  <h3>CV input calibration</h3>
+  <p>Trims the CV inputs so that an unplugged input reads exactly zero. Most modules never need it.</p>
+  <ol class="steps">
+    <li>Unplug every cable from Tandem.</li>
+    <li>Hold <span class="b">2</span> and switch the rack on. The screen asks you to unplug the jacks.</li>
+    <li>Press any other button. A percentage counts up for about ten seconds, then the screen reads <span class="mono">Calibration done</span>.</li>
+    <li>Switch off and on again.</li>
+  </ol>
+</section>
+
+<!-- ============================== SD -->
+<section id="sd">
+  <h2>microSD card</h2>
+  <p>Presets and pitch tables live on the card in plain files, so you can back them up or copy them between modules from a computer. Switch the rack off before you remove the card.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Presets/BANK_A … BANK_P/</td><td>One folder per bank</td></tr>
+      <tr><td class="mono">Presets/BANK_A/preset_00.gcp … preset_31.gcp</td><td>One file per preset</td></tr>
+      <tr><td class="mono">P_MEM/pmem.pmem</td><td>The last preset loaded, recalled at power-up</td></tr>
+      <tr><td class="mono">P_MEM/CV_tables/CV_Table01.cvt … 04</td><td>The four pitch tables</td></tr>
+      <tr><td class="mono">P_MEM/name_list_0.cvt … 3</td><td>Pitch table names</td></tr>
+    </tbody>
+  </table></div>
+  <p>Keep the folder structure exactly as it is. A preset slot with no file loads as an empty preset.</p>
+</section>
+
+<!-- ============================== QUICK REF -->
+<section id="ref">
+  <h2>Quick reference</h2>
+  <p class="sub">What every control does on every page. Scroll sideways on a small screen.</p>
+  <div class="tbl qr"><table>
+    <thead><tr><th></th><th>Main menu</th><th>LFO</th><th>Envelope</th><th>Step sequencer</th><th>Bassline env.</th><th>CV page</th></tr></thead>
+    <tbody>
+      <tr><th>K1</th><td>Preset</td><td>Rate</td><td>Attack</td><td>Step (Pos)</td><td>Step to accent</td><td>CV 1 destination</td></tr>
+      <tr><th>K2</th><td>Bank</td><td>Wave</td><td>Decay / Shape / Trig</td><td>Note</td><td>Accent / Hardness / Length</td><td>CV 2 destination</td></tr>
+      <tr><th>K3</th><td>Mode ch 1</td><td>Phase</td><td>Sustain</td><td>Root</td><td>Attack</td><td>CV 1 level</td></tr>
+      <tr><th>K4</th><td>Mode ch 2</td><td>Trig point</td><td>Release</td><td>Length</td><td>Decay</td><td>CV 2 level</td></tr>
+      <tr><th>Select</th><td>Load preset</td><td>Reset · scope (ch 1)</td><td>Manual gate</td><td>Step on/off · <i>clock div.</i></td><td>Accent on/off</td><td class="dim">–</td></tr>
+      <tr><th>Patch</th><td>Patch page</td><td>Snap · Sync (ch 2)</td><td>K2 function</td><td>Slide on/off</td><td>K2 function</td><td class="dim">–</td></tr>
+      <tr><th>Rest</th><td>Confirm mode ch 1 · YES</td><td>CV page</td><td>CV page</td><td>Short/long gate · <i>direction</i></td><td class="dim">–</td><td>Back</td></tr>
+      <tr><th>Clk div</th><td>Confirm mode ch 2 · NO</td><td>Bi / Uni</td><td>Uni / Bi / Inv</td><td>Clock page</td><td class="dim">–</td><td>Polarity</td></tr>
+      <tr><th>1 / 2</th><td>Edit channel</td><td>Switch channel</td><td>Switch channel</td><td>Switch channel</td><td>Switch channel</td><td class="dim">–</td></tr>
+      <tr><th>Main</th><td>Save page</td><td colspan="5">Back to the main menu</td></tr>
+      <tr><th>Gate in</th><td class="dim">–</td><td>Reset</td><td>Gate</td><td>Clock</td><td>Trigger</td><td class="dim">–</td></tr>
+      <tr><th>Gate out</th><td class="dim">–</td><td>Trigger at trig point</td><td>End-of-stage trigger</td><td>Step gates</td><td class="dim">–</td><td class="dim">–</td></tr>
+    </tbody>
+  </table></div>
+  <p class="foot">Step sequencer entries in italics apply to its clock page. Screens in this manual are drawn from the module's firmware with example settings.</p>
+</section>
+</main>
+</div>
+
+<script>
+/* ---------- 5x7 font (classic GLCD), column bytes, LSB at top ---------- */
+const FONT_SRC = {
+' ':'0000000000','!':'00005f0000','#':'147f147f14','%':'2313086462','(':'001c224100',')':'0041221c00','+':'08083e0808',',':'0080703000','-':'0808080808','.':'0000606000','/':'2010080402',
+'0':'3e5149453e','1':'00427f4000','2':'7249494946','3':'21414d4b31','4':'1814127f10','5':'2745454539','6':'3c4a494931','7':'4121110907','8':'3649494936','9':'464949291e',
+':':'0000140000',';':'0040340000','<':'0008142241','=':'1414141414','>':'0041221408','?':'0201590906',
+'A':'7c1211127c','B':'7f49494936','C':'3e41414122','D':'7f4141413e','E':'7f49494941','F':'7f09090901','G':'3e41415173','H':'7f0808087f','I':'00417f4100','J':'2040413f01',
+'K':'7f08142241','L':'7f40404040','M':'7f021c027f','N':'7f0408107f','O':'3e4141413e','P':'7f09090906','Q':'3e4151215e','R':'7f09192946','S':'2649494932','T':'03017f0103',
+'U':'3f4040403f','V':'1f2040201f','W':'3f4038403f','X':'6314081463','Y':'0304780403','Z':'61594d4543','_':'4040404040',
+'a':'2054547840','b':'7f28444438','c':'3844444428','d':'384444287f','e':'3854545418','f':'00087e0902','g':'18a4a49c78','h':'7f08040478','i':'00447d4000','j':'2040403d00',
+'k':'7f10284400','l':'00417f4000','m':'7c04780478','n':'7c08040478','o':'3844444438','p':'fc18242418','q':'18242418fc','r':'7c08040408','s':'4854545424','t':'04043f4424',
+'u':'3c4040207c','v':'1c2040201c','w':'3c4030403c','x':'4428102844','y':'4c9090907c','z':'4464544c44'};
+const FONT = {};
+for (const k in FONT_SRC){ const s=FONT_SRC[k]; FONT[k]=[0,1,2,3,4].map(i=>parseInt(s.substr(i*2,2),16)); }
+const T = Math.trunc;
+
+/* ---------- a tiny port of the Adafruit_GFX calls the firmware uses ---------- */
+class Oled{
+  constructor(w=128,h=64){this.w=w;this.h=h;this.px=new Uint8Array(w*h);this.cx=0;this.cy=0;this.tc=1;this.ts=1;this.ox=0;this.oy=0;}
+  clear(){this.px.fill(0)}
+  pix(x,y,c){x=T(x)+this.ox;y=T(y)+this.oy;if(x<0||y<0||x>=this.w||y>=this.h)return;const i=y*this.w+x;this.px[i]=c?1:0;}
+  line(x0,y0,x1,y1,c=1){x0=T(x0);y0=T(y0);x1=T(x1);y1=T(y1);
+    const steep=Math.abs(y1-y0)>Math.abs(x1-x0);
+    if(steep){[x0,y0]=[y0,x0];[x1,y1]=[y1,x1];}
+    if(x0>x1){[x0,x1]=[x1,x0];[y0,y1]=[y1,y0];}
+    const dx=x1-x0,dy=Math.abs(y1-y0);let err=T(dx/2);const ys=y0<y1?1:-1;
+    for(;x0<=x1;x0++){steep?this.pix(y0,x0,c):this.pix(x0,y0,c);err-=dy;if(err<0){y0+=ys;err+=dx;}}}
+  hl(x,y,w,c){for(let i=0;i<w;i++)this.pix(x+i,y,c)}
+  vl(x,y,h,c){for(let i=0;i<h;i++)this.pix(x,y+i,c)}
+  rect(x,y,w,h,c=1){x=T(x);y=T(y);w=T(w);h=T(h);if(w<=0||h<=0)return;this.hl(x,y,w,c);this.hl(x,y+h-1,w,c);this.vl(x,y,h,c);this.vl(x+w-1,y,h,c);}
+  fill(x,y,w,h,c=1){x=T(x);y=T(y);w=T(w);h=T(h);for(let j=0;j<h;j++)for(let i=0;i<w;i++)this.pix(x+i,y+j,c);}
+  circle(x0,y0,r,c=1){x0=T(x0);y0=T(y0);r=T(r);let f=1-r,dfx=1,dfy=-2*r,x=0,y=r;
+    this.pix(x0,y0+r,c);this.pix(x0,y0-r,c);this.pix(x0+r,y0,c);this.pix(x0-r,y0,c);
+    while(x<y){if(f>=0){y--;dfy+=2;f+=dfy;}x++;dfx+=2;f+=dfx;
+      this.pix(x0+x,y0+y,c);this.pix(x0-x,y0+y,c);this.pix(x0+x,y0-y,c);this.pix(x0-x,y0-y,c);
+      this.pix(x0+y,y0+x,c);this.pix(x0-y,y0+x,c);this.pix(x0+y,y0-x,c);this.pix(x0-y,y0-x,c);}}
+  fillCircle(x0,y0,r,c=1){x0=T(x0);y0=T(y0);r=T(r);this.vl(x0,y0-r,2*r+1,c);let f=1-r,dfx=1,dfy=-2*r,x=0,y=r;
+    while(x<y){if(f>=0){y--;dfy+=2;f+=dfy;}x++;dfx+=2;f+=dfx;
+      this.vl(x0+x,y0-y,2*y+1,c);this.vl(x0+y,y0-x,2*x+1,c);this.vl(x0-x,y0-y,2*y+1,c);this.vl(x0-y,y0-x,2*x+1,c);}}
+  tri(x0,y0,x1,y1,x2,y2,c=1){this.line(x0,y0,x1,y1,c);this.line(x1,y1,x2,y2,c);this.line(x2,y2,x0,y0,c);}
+  cur(x,y){this.cx=T(x);this.cy=T(y)}
+  color(c){this.tc=c?1:0}
+  size(s){this.ts=s}
+  ch(x,y,ch,c,s){const g=FONT[ch]||FONT['?'];for(let i=0;i<5;i++){let l=g[i];for(let j=0;j<8;j++,l>>=1){if(l&1){s===1?this.pix(x+i,y+j,c):this.fill(x+i*s,y+j*s,s,s,c);}}}}
+  print(v){const s=String(v);for(const c of s){if(c==='\n'){this.cy+=8*this.ts;this.cx=0;continue;}
+    this.ch(this.cx,this.cy,c,this.tc,this.ts);this.cx+=6*this.ts;if(this.cx>this.w-6*this.ts){this.cy+=8*this.ts;this.cx=0;}}}
+}
+
+/* ---------- screen drawing, ported from displayMenus.ino / displayPrefabs.ino ---------- */
+function drawRoutingIcone(o){o.circle(108,6,3);o.circle(118,6,3);o.circle(118,16,3);o.circle(108,16,3);o.line(108,6,118,16);}
+function drawIcone(o,x,y,m,c){
+  if(m===0){y+=1;const s=[[0,0,1,3],[2,3,3,5],[4,5,5,7],[6,7,7,8],[8,8,9,8],[10,8,11,8],[12,8,13,7],[14,7,15,5],[16,5,17,3],[18,3,19,0],[20,0,21,-3],[22,-3,23,-5],[24,-5,25,-7],[26,-7,27,-8],[28,-8,29,-8],[30,-8,31,-8],[32,-8,33,-7],[34,-7,35,-5],[36,-5,37,-3],[38,-3,39,0]];
+    for(const a of s)o.line(x+a[0],y+a[1],x+a[2],y+a[3],c);}
+  else if(m===1){o.line(x+3,y+8,x+11,y-8,c);o.line(x+11,y-8,x+18,y-1,c);o.line(x+18,y-1,x+26,y-1,c);o.line(x+26,y-1,x+35,y+8,c);}
+  else if(m===2){o.line(x,y,x+5,y,c);o.line(x+5,y+5,x+15,y+5,c);o.line(x+15,y-6,x+19,y-6,c);o.line(x+19,y+1,x+26,y+1,c);o.line(x+26,y+8,x+40,y+8,c);}
+  else if(m===3){const b=[[1,8],[6,4],[11,10],[16,12],[21,18],[26,15],[31,8],[36,13]];for(const a of b)o.fill(x+a[0],y+10-a[1],3,a[1],c);}
+  else if(m===4){x+=1;y-=10;const s=[[0,2,0,18],[1,2,2,4],[2,4,3,6],[3,6,5,8],[5,8,6,9],[6,9,7,10],[7,10,9,11],[9,11,12,12],[12,12,15,13],[15,13,20,15],[20,15,25,16],[25,16,36,18]];for(const a of s)o.line(x+a[0],y+a[1],x+a[2],y+a[3],c);}
+}
+function mainMenu(o,b,st){
+  o.clear();o.color(1);drawRoutingIcone(o);
+  if(st.preset===st.tPreset){o.fill(7,16,71,12,1);o.color(0);o.cur(9,18);o.print(st.name);}
+  else{o.rect(7,16,72,12,1);o.color(1);o.cur(10,18);o.print(st.name);}
+  o.rect(27,2,23,12,1);o.color(1);o.cur(30,4);o.print(st.tPreset);
+  const bank='ABCDEFGHIJKLMNOP'[st.tBank];
+  if(st.bank===st.tBank){o.fill(88,2,11,12,1);o.color(0);o.cur(90,4);o.print(bank);o.color(1);}
+  else{o.rect(88,2,11,12,1);o.color(1);o.cur(90,4);o.print(bank);}
+  const changed=st.bank!==st.tBank||st.preset!==st.tPreset;
+  if(st.model1===st.m1||changed){o.rect(7,34,48,30,1);drawIcone(o,11,48,st.m1,1);}else drawIcone(o,11,48,st.m1,b);
+  if(st.model2===st.m2||changed){o.rect(71,34,48,30,1);drawIcone(o,75,48,st.m2,1);}else drawIcone(o,75,48,st.m2,b);
+}
+function encodeName(o,name,cursorPos,stringPos){
+  const l1='ABCDEFGHIJKLMNOP',l2='QRSTUVWXYZ012345',l3='6789_ ';const sc=8;
+  if(cursorPos<16)o.fill(cursorPos*sc,15,sc,sc+1,1);else if(cursorPos<32)o.fill((cursorPos-16)*sc,23,sc,sc+1,1);else o.fill((cursorPos-32)*sc,31,sc,sc+1,1);
+  for(let i=0;i<16;i++){o.color(cursorPos===i?0:1);o.cur(i*sc+1,16);o.print(l1[i]);}
+  for(let i=0;i<16;i++){o.color(cursorPos===i+16?0:1);o.cur(i*sc+1,24);o.print(l2[i]);}
+  for(let i=0;i<6;i++){o.color(cursorPos===i+32?0:1);o.cur(i*sc+1,32);o.print(l3[i]);}
+  o.color(1);for(let i=0;i<11;i++){o.cur(11+i*8,43);o.print(name[i]||' ');}
+  o.fill(stringPos*8+11,51,5,2,1);
+}
+function drawRoutingFrame(o,dest,src){const d=28;o.fillCircle(22+dest*d,19,9,1);o.fillCircle(22+src*d,52,9,1);
+  for(let i=0;i<4;i++){o.circle(22+i*d,19,8,1);o.circle(22+i*d,19,5,0);o.circle(22+i*d,52,8,1);o.circle(22+i*d,52,5,0);}
+  o.fillCircle(22+dest*d,19,5,0);o.fillCircle(22+src*d,52,5,0);}
+function drawCVMenu(o,p1,p2,l1,l2){o.cur(11,0);o.print('CV 1');o.cur(73,0);o.print('CV 2');o.cur(11,20);o.print(p1);o.cur(73,20);o.print(p2);
+  o.cur(11,45);o.print('level :');o.cur(73,45);o.print('level :');o.cur(11,53);o.print(l1);o.cur(73,53);o.print(l2);}
+function waveIcon(o,v){const q=[
+  [[84,4,84,2],[84,2,85,0],[86,0,88,2],[88,2,88,6],[88,6,90,8],[90,8,92,6],[92,6,92,4]],
+  [[84,8,84,0],[84,0,92,8]],
+  [[84,8,84,5],[85,4,85,3],[86,2,87,1],[87,1,88,1],[89,2,90,3],[90,4,91,5],[91,6,91,8]],
+  [[84,8,88,0],[88,0,92,8]],
+  [[84,8,88,8],[88,8,88,0],[88,0,92,0]],
+  [[84,1,84,4],[85,5,85,6],[86,7,87,8],[87,8,88,8],[89,7,90,6],[90,5,91,4],[91,3,91,1]],
+  [[84,8,92,0],[92,0,92,8]],
+  [[84,6,86,6],[86,8,88,8],[88,0,90,0],[90,4,92,4]]][v];for(const a of q)o.line(a[0],a[1],a[2],a[3],1);}
+function drawPot(o,r,cx,cy,val,name,toff){const a=((127-val)/127*0.78)+0.11;const s=Math.sin(a*6.28318530718),c=Math.cos(a*6.28318530718);
+  o.circle(cx,cy,r,1);o.line(cx+s*r*0.9,cy+c*r*0.9,cx+s*r*0.2,cy+c*r*0.2,1);
+  o.cur(toff+cx-T(name.length/2)*6,cy+r*1.35);o.print(name);o.cur(cx-T(String(val).length/2)*6,cy+r*1.35+9);o.print(val);}
+function drawDualPot(o,r,cx,cy,val,n1,n2,toff){const a=((127-val)/127*0.78)+0.11;const s=Math.sin(a*6.28318530718),c=Math.cos(a*6.28318530718);
+  o.circle(cx,cy,r,1);o.line(cx+s*r*0.9,cy+c*r*0.9,cx+s*r*0.2,cy+c*r*0.2,1);
+  if(val<=63){o.cur(toff+cx-T(n1.length/2)*6,cy+r*1.35);o.print(n1);o.cur(cx-T(String(val).length/2)*6,cy+r*1.35+9);o.print(val);}
+  else{o.cur(toff+cx-T(n2.length/2)*6,cy+r*1.35);o.print(n2);o.cur(cx-T(String(val-63).length/2)*6,cy+r*1.35+9);o.print(64-(val-63));}}
+function drawADSR(o,A,D,S,R,shape,outA,trigMode){
+  const yo=16,aS=A/3,dS=D/3,rS=R/3;const cx=T(aS+dS);const cy=T(outA*6.4+yo);
+  if(trigMode<42)o.line(aS,16,aS,48);else if(trigMode<84)o.line(aS+dS,16,aS+dS,48);else o.line(aS+dS+rS,16,aS+dS+rS,48);
+  o.fill(cx-2,64-cy-3,5,5);
+  for(let i=0;i<16;i++){o.line(aS+1,i*2+yo,aS+1,i*2+yo+1);o.line(aS+dS+1,i*2+yo,aS+dS+1,i*2+yo+1);}
+  for(let i=0;i<aS;i++){const p=i/aS;let f=shape*(1-p)+(1-shape)*(1-p)*(1-p);f=1-f;const k=T(f*32);o.line(i,32-k+yo,i+1,32-k+yo);}
+  for(let i=0;i<dS;i++){const p=i/dS;let f=shape*(1-p)+(1-shape)*(1-p)*(1-p);f=1-f;let v=1-f;v*=1-(S/127);v+=S/129;const k=T(v*32);o.line(i+aS,32-k+yo,i+aS+1,32-k+yo);}
+  for(let i=0;i<rS;i++){const p=i/rS;const f=shape*(1-p)+(1-shape)*(1-p)*(1-p);let v=1-f;v*=S/127;v=S/129-v;const k=T(v*32);o.line(i+aS+dS,32-k+yo,i+aS+dS+1,32-k+yo);}
+}
+const bit=(w,i)=>(w>>i)&1;
+
+/* example state used for the illustrations */
+const SEQ={len:15,notes:[0,12,7,0,3,15,0,10,0,12,5,0,7,19,3,0],gates:0b1110110111011111,slides:(1<<4)|(1<<13),longs:(1<<2)|(1<<8)|(1<<9),accents:(1<<0)|(1<<6)|(1<<10)|(1<<14),root:24,edit:5,chase:9};
+const NOTE_NAMES=['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+
+const SCREENS={
+  boot(o){o.clear();o.cur(32,32);o.print('HORA - TANDEM');},
+  mainLoaded(o,b){mainMenu(o,b,{preset:5,tPreset:5,name:'ACID LINE  ',bank:0,tBank:0,m1:3,m2:4,model1:3,model2:4});},
+  confirmModel(o){o.clear();o.cur(18,5);o.print('DO YOU WANT');o.cur(18,20);o.print('TO CONFRIM THE');o.cur(18,35);o.print('SELECTED MODEL?');o.cur(18,55);o.print('YES');o.cur(100,55);o.print('NO');},
+  save(o,b){o.clear();encodeName(o,'ACID LINE  ',18,9);o.cur(111,0);o.print('<<');o.cur(7,57);o.print('SAVE TO :');o.cur(91,57);o.color(b);o.print(6);o.color(1);},
+  routing(o,b){o.clear();const map=[[0,0,0,0],[0,0,0,0],[1,0,0,0],[0,1,0,0]];const dest=1,src=3,d=28;o.cur(113,0);o.print('<<');drawRoutingFrame(o,dest,src);
+    if(!map[dest][src])o.line(23+dest*d,19,23+src*d,53,b);
+    for(let i=0;i<4;i++)for(let j=0;j<4;j++)if(map[i][j])o.line(23+i*d,19,23+j*d,53,1);},
+  lfo(o){o.clear();o.color(1);
+    o.cur(3,57);o.print('CV');o.cur(27,57);o.print('PHASE');o.cur(78,57);o.print('TRIG');o.cur(115,57);o.print('Bi');
+    o.cur(78,0);o.print('WAV');o.cur(103,1);o.print('Snap');o.cur(0,0);o.print('Scop');o.cur(28,0);o.print('RATE');
+    const buf=[];for(let k=0;k<128;k++)buf[k]=T(15.5-15.5*Math.sin(2*Math.PI*k/128))-3;
+    const xPos=52,resetPos=24,trigPos=88;o.fill(0,15,128,37,0);o.fill(xPos-2,buf[xPos]+20-2,5,5,1);
+    for(let i=0;i<64;i++){let y1=buf[i*2]+21,y2=(i===63?buf[0]:buf[i*2+1])+21;if(y1<16)y1=16;if(y2<16)y2=16;o.line(i*2,y1,i*2+1,y2,1);}
+    o.fill(resetPos+3,15,30,10,1);o.color(0);o.cur(resetPos+5,16);o.print(resetPos);o.line(resetPos,14,resetPos,54,1);
+    o.line(trigPos,14,trigPos,54,1);o.color(1);
+    o.tri(resetPos+5,15,resetPos,18,resetPos,12,1);o.tri(resetPos-5,15,resetPos,18,resetPos,12,1);},
+  cvPage(o){o.clear();o.color(1);drawCVMenu(o,'RATE','WAVE',64,30);},
+  env(o){o.clear();o.color(1);o.tri(10,4,5,7,5,1);o.line(115,4,128,4);o.tri(110,4,115,7,115,1);
+    o.fill(0,15,128,37,0);const A=36,D=54,S=85,R=90;drawADSR(o,A,D,S,R,40/127,5*S/127,100);
+    o.cur(29,1);o.print('ATT');o.cur(80,1);o.print('DEC');o.cur(28,57);o.print('SUS');o.cur(80,57);o.print('REL');o.cur(3,57);o.print('CV');o.cur(110,57);o.print('Uni');},
+  seq(o){o.clear();o.color(1);const s=SEQ,r=16/(s.len+1);
+    o.cur(11,0);o.print('POS: ');o.cur(35,0);o.print(s.edit+1);o.cur(70,0);o.print('NOTE:');o.cur(100,0);const n=s.notes[s.edit]+s.root;o.print(NOTE_NAMES[n%12]+Math.floor(n/12));
+    for(let i=0;i<16;i++){if(i>s.len)continue;o.rect(i*8*r,10,8*r,6,1);
+      if(bit(s.slides,i))o.line(i*8*r+7*r,53,i*8*r+6*r,51,1);
+      if(bit(s.gates,i)){o.fill(i*8*r+2*r,11,4*r,3,1);const L=bit(s.longs,i)?8*r:3*r;o.line(i*8*r,18,i*8*r+L,18,1);o.line(i*8*r,17,i*8*r+L,17,1);}
+      const h=s.notes[i]/1.35;
+      if(i!==s.chase){o.fill(i*8*r+2*r,23+24-h,4*r,h+2,1);if(i===s.edit)o.rect(i*8*r,21,8*r,30,1);}
+      else{o.fill(i*8*r,21,8*r,30,1);o.rect(i*8*r,21,8*r,30,0);o.fill(i*8*r+2*r,23+24-h,4*r,h+2,0);}}
+    o.cur(5,56);o.print('ROOT:');o.cur(35,56);o.print(s.root);o.cur(100,56);o.print(s.len+1);},
+  seqClock(o){o.clear();o.color(1);o.cur(2,2);o.print('1/2');o.cur(2,58);o.print('FWD');},
+  bass(o){o.clear();o.color(1);const s=SEQ,r=16/(s.len+1),edit=6;o.rect(edit*8*r,2,8*r,6,1);
+    for(let i=0;i<16;i++){if(i>s.len)continue;o.rect(i*8*r,10,8*r,6,1);
+      if(bit(s.gates,i)){o.fill(i*8*r+2*r,11,4*r,3,1);if(i===s.chase)o.fill(i*8*r+2*r,11,4*r,3,0);}else if(i===s.chase)o.fill(i*8*r+2*r,11,4*r,3,1);
+      if(bit(s.accents,i))o.fill(i*8*r+2*r,4,4*r,2,1);}
+    drawPot(o,10,22,34,10,'attack',0);drawPot(o,10,64,34,70,'decay',-3);drawDualPot(o,10,106,34,50,'accent','gap',0);},
+  tuner(o){o.clear();o.color(1);o.cur(10,15);o.print('110.00');o.cur(55,15);o.print(' Hz');o.cur(80,15);o.print('221.50');
+    o.cur(20,35);o.print('A');o.cur(95,35);o.print('-');o.cur(90,35);o.print('A');},
+  scope(o){o.clear();o.color(1);const a=[],c=[];for(let i=0;i<128;i++){a[i]=T(32+22*Math.sin(2*Math.PI*i/64));const t=(i%42)/42;c[i]=T(10+30*(t<.5?t*2:2-t*2));}
+    for(let i=0;i<127;i++){o.line(i,64-a[i],i+1,64-a[i+1]);o.line(i,64-c[i],i+1,64-c[i+1]);}},
+  calibProgress(o){o.clear();o.color(1);o.cur(35,5);o.print(523);o.cur(35,20);o.print('calib chan: ');o.cur(95,20);o.print(1);o.cur(15,35);o.print('lastSavedFreq:');o.cur(95,35);o.print(519);o.cur(15,50);o.print('lastSavedCv:');o.cur(90,50);o.print(2871);},
+  calibCh2(o){o.clear();o.color(1);o.cur(35,5);o.print('connect ch2 and');o.cur(35,20);o.print('press the main button');},
+  tables(o){o.clear();o.color(1);o.cur(0,54);o.print('select');const names=['DEFAULT','VCO_A','VCO_B','BASS_OSC'],active=1,pot=2;
+    o.rect(5,pot*11,100,12,1);for(let i=0;i<4;i++){if(i!==active){o.color(1);o.cur(6,2+i*11);o.print(names[i]);}else{o.fill(5,i*11,100,12,1);o.color(0);o.cur(6,2+i*11);o.print(names[i]);o.color(1);}}}
+};
+SCREENS.mainBrowse=(o,b)=>mainMenu(o,b,{preset:5,tPreset:6,name:'SLOW SWELL ',bank:0,tBank:0,m1:3,m2:4,model1:3,model2:4});
+SCREENS.modePending=(o,b)=>mainMenu(o,b,{preset:5,tPreset:5,name:'ACID LINE  ',bank:0,tBank:0,m1:3,m2:0,model1:3,model2:4});
+
+/* ---------- OLED rendering ---------- */
+const PX=4;
+function paint(cv,o){
+  if(cv.width!==o.w*PX){cv.width=o.w*PX;cv.height=o.h*PX;}
+  const g=cv.getContext('2d');g.fillStyle='#030405';g.fillRect(0,0,cv.width,cv.height);
+  g.fillStyle='#eef3ff';
+  for(let y=0;y<o.h;y++)for(let x=0;x<o.w;x++)if(o.px[y*o.w+x])g.fillRect(x*PX+0.5,y*PX+0.5,PX-1,PX-1);
+}
+let blink=1;
+const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function renderAll(){
+  document.querySelectorAll('canvas[data-screen]').forEach(cv=>{const f=SCREENS[cv.dataset.screen];if(!f)return;const o=new Oled();try{f(o,blink);}catch(e){console.error(cv.dataset.screen,e);}paint(cv,o);});
+}
+renderAll();
+if(!reduce)setInterval(()=>{blink=blink?0:1;renderAll();},700);
+
+/* waveform and mode icon strips, drawn with the firmware's own pixel art */
+function iconStrip(id,items,w,h,draw){const host=document.getElementById(id);if(!host)return;
+  items.forEach((label,i)=>{const d=document.createElement('div');d.className='icon';const cv=document.createElement('canvas');const o=new Oled(w,h);draw(o,i);
+    const S=5;cv.width=w*S;cv.height=h*S;cv.style.width=(w*S*0.6)+'px';const g=cv.getContext('2d');g.fillStyle='#030405';g.fillRect(0,0,cv.width,cv.height);g.fillStyle='#eef3ff';
+    for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(o.px[y*w+x])g.fillRect(x*S+0.5,y*S+0.5,S-1,S-1);
+    const sp=document.createElement('span');sp.textContent=label;d.append(cv,sp);host.append(d);});}
+iconStrip('waveIcons',['Sine','Ramp down','Arch','Triangle','Square','Bounce','Ramp up','Stepped random'],13,11,(o,i)=>{o.ox=-82;o.oy=1;waveIcon(o,i);});
+iconStrip('modeIcons',['LFO','Envelope','Bassline env.','Step sequencer'],44,23,(o,i)=>{drawIcone(o,2,11,[0,1,4,3][i],1);});
+
+/* ---------- panel drawing from the EAGLE board (mm, origin top-left) ---------- */
+(function(){
+  const svg=document.getElementById('panelSvg');const Y=y=>+(112.7-y).toFixed(3);
+  const AM='var(--panel-amber)',INK='var(--panel-ink)';
+  const knob=(id,x,y,R,cap,ang)=>`<g class="ctl" data-id="${id}"><circle class="halo" cx="${x}" cy="${y}" r="${R+1.6}"/>
+    <circle cx="${x}" cy="${y}" r="${R}" fill="#1c1d1f" stroke="#2c2d30" stroke-width=".4"/>
+    ${Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2;return `<line x1="${(x+Math.cos(a)*(R-.15)).toFixed(2)}" y1="${(y+Math.sin(a)*(R-.15)).toFixed(2)}" x2="${(x+Math.cos(a)*(R-.9)).toFixed(2)}" y2="${(y+Math.sin(a)*(R-.9)).toFixed(2)}" stroke="#2f3033" stroke-width=".35"/>`}).join('')}
+    <circle cx="${x}" cy="${y}" r="${cap}" fill="#d7d4cd"/><circle cx="${x}" cy="${y}" r="${cap-.5}" fill="#e3e0d9"/>
+    <line x1="${x}" y1="${y}" x2="${(x+Math.cos(ang)*(R-.3)).toFixed(2)}" y2="${(y+Math.sin(ang)*(R-.3)).toFixed(2)}" stroke="#d7d4cd" stroke-width=".9" stroke-linecap="round"/></g>`;
+  const btn=(id,x,y)=>`<g class="ctl" data-id="${id}"><circle class="halo" cx="${x}" cy="${y}" r="4.3"/><circle cx="${x}" cy="${y}" r="2.9" fill="#bdbab3"/><circle cx="${x}" cy="${y}" r="2.45" fill="#cfccc5"/></g>`;
+  const jack=(id,x,y,ch)=>{const ring=ch===1?`<circle cx="${x}" cy="${y}" r="4.6" fill="none" stroke="${INK}" stroke-width=".55"/>`:`<circle cx="${x}" cy="${y}" r="4.3" fill="none" stroke="${AM}" stroke-width="1.1"/>`;
+    const hex=Array.from({length:6},(_,i)=>{const a=Math.PI/6+i*Math.PI/3;return (x+Math.cos(a)*3.5).toFixed(2)+','+(y+Math.sin(a)*3.5).toFixed(2)}).join(' ');
+    return `<g class="ctl" data-id="${id}"><circle class="halo" cx="${x}" cy="${y}" r="5.8"/>${ring}<polygon points="${hex}" fill="#a9abad" stroke="#7d8083" stroke-width=".25"/><circle cx="${x}" cy="${y}" r="2.6" fill="#c9cbcd"/><circle cx="${x}" cy="${y}" r="1.75" fill="#0b0b0c"/></g>`;};
+  const pulse=(x,y,c)=>`<path d="M${x-1.6} ${y+.8} h.8 v-1.6 h1.6 v1.6 h.8" fill="none" stroke="${c}" stroke-width=".35"/>`;
+  const sine=(x,y,c)=>`<path d="M${x-1.6} ${y} q.8 -1.8 1.6 0 t1.6 0" fill="none" stroke="${c}" stroke-width=".35"/>`;
+  const txt=(x,y,s,c,str,w=600,anchor='middle',ls=0)=>`<text x="${x}" y="${y}" font-size="${s}" fill="${c}" font-family="Barlow, Arial, sans-serif" font-weight="${w}" text-anchor="${anchor}" letter-spacing="${ls}">${str}</text>`;
+  const mir=x=>+(60.18-x).toFixed(3);
+  const arc=(cx,cy)=>{const r=8.42,x1=cx-4.19,x2=cx+4.21,y=cy+7.3;return `<path d="M${x1} ${y} A${r} ${r} 0 1 1 ${x2} ${y}" fill="none" stroke="${AM}" stroke-width=".38"/><circle cx="${x1}" cy="${y}" r=".4" fill="${AM}"/><circle cx="${x2}" cy="${y}" r=".4" fill="${AM}"/>`;};
+  const trace=(pts)=>`<path d="${pts}" fill="none" stroke="${AM}" stroke-width=".38"/>`;
+  const L=[];
+  L.push(`<rect x="0" y="0" width="60.18" height="128.45" rx=".6" fill="var(--panel)"/>`);
+  [[7.5,3],[52.68,3],[7.5,125.45],[52.68,125.45]].forEach(([x,y])=>L.push(`<rect x="${x-1.6}" y="${y-1.6}" width="3.2" height="3.2" rx="1.6" fill="#08090a" stroke="#3a3c40" stroke-width=".3"/>`));
+  L.push(txt(30.09,4.6,2.6,INK,'TANDEM',600,'middle',.25));
+  L.push(txt(30.09,8.1,1.65,INK,'MULTIMODE CV GENERATOR',500,'middle',.05));
+  L.push(arc(12.065,Y(93.345)),arc(47.625,Y(93.345)));
+  // traces: knob arcs down to the screen, screen down to the small knobs, button brackets
+  const side=(m)=>{const X=m?mir:(x=>x);return trace(`M${X(19.9)} ${Y(91.2)} Q${X(24.1)} ${Y(89.8)} ${X(24.1)} ${Y(84)} L${X(24.1)} ${Y(74.3)}`)
+    +trace(`M${X(10.4)} ${Y(76.3)} L${X(14.2)} ${Y(76.3)} Q${X(15.9)} ${Y(76.3)} ${X(15.9)} ${Y(74.3)}`)
+    +trace(`M${X(10.4)} ${Y(54.5)} L${X(14.2)} ${Y(54.5)} Q${X(15.9)} ${Y(54.5)} ${X(15.9)} ${Y(56.7)}`)
+    +trace(`M${X(24.1)} ${Y(56.7)} L${X(24.1)} ${Y(45)} Q${X(24.1)} ${Y(41.3)} ${X(20.4)} ${Y(41.3)} L${X(17.9)} ${Y(41.3)}`);};
+  L.push(side(false),side(true));
+  // microSD slot
+  L.push(`<g class="ctl" data-id="sd"><rect class="halo" x="22.3" y="${Y(98.0)-1.4}" width="15.6" height="8" rx="1"/><rect x="23.65" y="${Y(98.02)}" width="12.88" height="3.28" rx=".5" fill="#060607" stroke="#45474b" stroke-width=".25"/>
+    ${[24.257,25.781,27.305,28.829,30.353,31.877,33.401,34.925].map((x,i)=>`<rect x="${x}" y="${Y(93.726)}" width="1.016" height="${(i===3||i===5)?2.03:1.65}" fill="${INK}"/>`).join('')}</g>`);
+  L.push(knob('k1',12.065,Y(93.345),6.6,3.6,-2.3),knob('k2',47.625,Y(93.345),6.6,3.6,-1.1));
+  L.push(txt(12.065,30.6,1.9,INK,'POS',500),txt(12.065,33.9,2.5,AM,'PRESET',700),txt(47.625,30.6,1.9,INK,'NOTE',500),txt(47.625,33.9,2.5,AM,'BANK',700));
+  L.push(btn('main',29.845,Y(84.455)),txt(29.845,35.1,2.5,AM,'MAIN',700));
+  L.push(btn('sel',7.62,Y(75.692)),btn('pat',52.197,Y(75.692)));
+  L.push(txt(7.6,43.9,1.9,INK,'WRITE',500),txt(7.3,47.0,2.5,AM,'SELECT',700),txt(52.4,43.9,1.9,INK,'SLIDE',500),txt(52.6,47.0,2.5,AM,'PATCH',700));
+  L.push(`<g class="ctl" data-id="oled"><rect class="halo" x="11.5" y="${Y(74.27)-1.2}" width="36.6" height="20" rx="2.2"/><rect x="12.725" y="${Y(74.27)}" width="34.21" height="17.56" rx="1.4" fill="#050607" stroke="#2c2e31" stroke-width=".3"/>
+    <rect x="13.6" y="${Y(74.27)+.9}" width="32.4" height="15.7" fill="#0a0d12"/></g>`);
+  L.push(btn('rest',7.62,Y(54.737)),btn('clk',52.07,Y(54.737)),txt(7.9,64.9,1.9,INK,'REST',500),txt(51.9,64.9,1.9,INK,'CLK DIV',500));
+  L.push(knob('k3',12.065,Y(38.735),5.3,3.3,-.9),knob('k4',47.625,Y(38.735),5.3,3.3,2.2));
+  // small-knob icons
+  L.push(`<path d="M3.2 68.4 V79.6 M2.4 69.6 L3.2 68.4 L4 69.6 M2.4 78.4 L3.2 79.6 L4 78.4" fill="none" stroke="${INK}" stroke-width=".35"/><circle cx="3.9" cy="74.6" r=".7" fill="${INK}"/><path d="M4.6 74.6 V72" stroke="${INK}" stroke-width=".3"/>`);
+  L.push(`<path d="M49.6 81.4 V82.6 H56.8 V81.4" fill="none" stroke="${INK}" stroke-width=".35"/>`);
+  // channel buttons with rings and number tabs
+  const chb=(id,x,y,n)=>{const c=n===1?INK:AM;const bx=n===1?x+4.4:x-4.4;return `<circle cx="${x}" cy="${y}" r="4.3" fill="none" stroke="${c}" stroke-width="${n===1?.5:1}"/><circle cx="${bx}" cy="${y-4.1}" r="2.3" fill="none" stroke="${c}" stroke-width="${n===1?.5:.9}"/>${txt(bx,y-3.35,2.2,c,String(n),700)}${btn(id,x,y)}`;};
+  L.push(chb('b1',14.11,Y(25.603),1),chb('b2',43.18,Y(25.527),2));
+  // jacks
+  const jx=[7.607,20.942,35.547,49.517];
+  ['gi1','ci1','gi2','ci2'].forEach((id,i)=>L.push(jack(id,jx[i],Y(12.065),i<2?1:2)));
+  ['go1','co1','go2','co2'].forEach((id,i)=>L.push(jack(id,jx[i],Y(0),i<2?1:2)));
+  [Y(12.065),Y(0)].forEach(yy=>{jx.forEach((x,i)=>{const c=i<2?INK:AM;L.push(i%2===0?pulse(x+3.3,yy-4.6,c):sine(x+3.5,yy-4.6,c));});});
+  L.push(txt(57.6,Y(12.065)+.8,2.2,INK,'I',600),txt(57.6,Y(0)+.8,2.2,INK,'O',600));
+  L.push(txt(30.09,124.0,3.3,INK,'HORA-MUSIC',600,'middle',.2));
+  svg.innerHTML=L.join('');
+
+  // two-way highlight between drawing and legend
+  const rows=[...document.querySelectorAll('#legend .row')];
+  const set=id=>{svg.querySelectorAll('.ctl').forEach(g=>g.classList.toggle('on',g.dataset.id===id));rows.forEach(r=>r.classList.toggle('on',r.dataset.id===id));};
+  svg.querySelectorAll('.ctl').forEach(g=>{g.addEventListener('mouseenter',()=>set(g.dataset.id));g.addEventListener('click',()=>set(g.dataset.id));});
+  rows.forEach(r=>{r.addEventListener('mouseenter',()=>set(r.dataset.id));r.addEventListener('click',()=>set(r.dataset.id));});
+  svg.addEventListener('mouseleave',()=>set(null));document.getElementById('legend').addEventListener('mouseleave',()=>set(null));
+})();
+</script>
