@@ -48,8 +48,6 @@ The Tandem firmware and its documentation are free software, released under the 
 
 You may use, study, modify and share them, including commercially, as long as anything you distribute that contains this code (modified firmware, or modules that ship with it) is released under the same license with its complete source code, and keeps the original copyright notices.
 
-Versions published before this license change were released under the MIT license and remain available under it.
-
 ## Trademarks
 
 **"Tandem"**, **"Hora-Music"** and the Hora-Music logo are names and marks of Hora-Music. They are **not** covered by the GPL or any other license in this repository.
