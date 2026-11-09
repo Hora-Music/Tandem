@@ -44,4 +44,14 @@ See the [build guide](docs/Firmware-Build-Guide.md): Arduino IDE 2.x, the Arduin
 
 ## License
 
-MIT — see the header of `Tandem.ino`.
+The Tandem firmware and its documentation are free software, released under the **GNU General Public License v3.0 or later** — see [LICENSE](LICENSE).
+
+You may use, study, modify and share them, including commercially, as long as anything you distribute that contains this code (modified firmware, or modules that ship with it) is released under the same license with its complete source code, and keeps the original copyright notices.
+
+Versions published before this license change were released under the MIT license and remain available under it.
+
+## Trademarks
+
+**"Tandem"**, **"Hora-Music"** and the Hora-Music logo are names and marks of Hora-Music. They are **not** covered by the GPL or any other license in this repository.
+
+You may say that a product is "based on the Hora-Music Tandem" to describe where it comes from. You may not sell, distribute or promote a module, kit, PCB, panel or modified firmware under the names "Tandem" or "Hora-Music", or with the Hora-Music logo, without written permission. Derived products must use a different name and must not suggest they are made or endorsed by Hora-Music.
