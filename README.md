@@ -8,7 +8,7 @@ Firmware for **Tandem**, a two-channel multimode CV generator for Eurorack (12 H
 
 | Document | Formats |
 |---|---|
-| Owner's manual | [Markdown](docs/Tandem-Owner-Manual.md) · [PDF](docs/Tandem-Owner-Manual.pdf) · [HTML](docs/Tandem-Owner-Manual.html) |
+| Owner's manual | [Markdown](docs/Tandem-Owner-Manual.md) · [PDF](docs/Tandem-Owner-Manual.pdf)  |
 | Building and flashing the firmware | [Markdown](docs/Firmware-Build-Guide.md) · [PDF](docs/Firmware-Build-Guide.pdf) |
 
 ## Related repositories
