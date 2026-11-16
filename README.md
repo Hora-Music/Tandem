@@ -17,7 +17,7 @@ Firmware for **Tandem**, a two-channel multimode CV generator for Eurorack (12 H
 
 - Tandem libraries (`GC_…`): <https://github.com/Hora-Music/TandemLibraries>
 - Hardware design files (EAGLE): <https://github.com/Hora-Music/Tandem-Hardware>
-- Tandem is also available as a VCV rack module (and you can share the presets between the hardware and the rack version)
+- Tandem will also be available as a VCV rack module in a few days (and you can share the presets between the hardware and the rack version)
 
 <img width="1048" height="443" alt="image" src="https://github.com/user-attachments/assets/6d1fe2c4-6e25-4ba5-98c3-1e08701e09c6" />
 
