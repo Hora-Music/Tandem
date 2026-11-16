@@ -3,8 +3,7 @@
 # Tandem
 
 Firmware for **Tandem**, a two-channel multimode CV generator for Eurorack (12 HP) by Hora-Music. Each channel can be an LFO, an ADSR envelope, a 16-step pitch sequencer or an accent-style bassline envelope, and the two channels can be patched into each other internally.
-
-
+The output range is 10 volts over 12 bits so the sequencer pitch accuracy isn't very high (but clearly usable for bassline and such).
 
 ## Documentation
 
