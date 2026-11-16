@@ -28,7 +28,7 @@ Write it to address **`0x08000000`** with either tool below. See sections 8 and 
 
 **STM32CubeProgrammer** (free, from ST — <https://www.st.com/en/development-tools/stm32cubeprog.html>)
 
-1. Choose **UART**, set your COM port and 115200 baud, then click **Connect**.
+1. Choose **UART**, set your COM port and 115200 baud, then click **Connect**. (you need to connect a USB to serial converter to the port on the back of the module)
 2. On the **Erasing & Programming** page, select `Tandem.ino.bin` and set the start address to `0x08000000`.
 3. Click **Start Programming**, then **Disconnect**.
 
